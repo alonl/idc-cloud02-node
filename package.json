@@ -9,6 +9,7 @@
     "express": "~3.3.4",
     "mysql": "*",
 	"mysql-wrap": "*",
-	"dynamodb": "*"
+	"dynamodb": "*",
+	"ee-aws-s3-bucket": "*"
   }
 }
