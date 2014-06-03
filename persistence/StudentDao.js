@@ -32,7 +32,6 @@ StudentDao.prototype.insert = function(student, callback){
 	var photoPath = "/photos/" + uuid + "." + mime.extension(student.photo.definition.type);
 	this.photosBucket.put(photoPath, new Buffer(student.photo.content.substring(student.photo.content.indexOf(',') + 1), "base64"), student.photo.definition.type, function(err) {
 		if (err) {
-			console.log(err);
 			callback(err);
 			return;
 		}
@@ -40,7 +39,7 @@ StudentDao.prototype.insert = function(student, callback){
 		me.connection.insert('students', student, function(result, err) {
 			callback(result, err);
 		});
-	}, undefined, false); // last argument indicates if it's public
+	}, undefined, false); // last argument indicates if it's private
 	
 };
 
