@@ -1,16 +1,18 @@
 var createMySQLWrap = require('mysql-wrap');
 var S3Bucket        = require('ee-aws-s3-bucket');  
+var mime            = require('mime');
 
 //conet S3_
 //const S3_ENDPOINT = "https://cloud-02-students.s3-website-us-east-1.amazonaws.com";
 
-StudentDao = function(connection, awsCredentials) {
+StudentDao = function(config, connection) {
 	this.connection = createMySQLWrap(connection);
 	this.photosBucket = new S3Bucket({
-		key: awsCredentials.key,
-		secret: awsCredentials.secret,
-		bucket: "cloud-02-students"
+		key: config.awsCredentials.key,
+		secret: config.awsCredentials.secret,
+		bucket: config.awsS3Bucket
 	});
+	this.awsS3Url = config.awsS3Url + config.awsS3Bucket;
 };
 
 StudentDao.prototype.findAll = function(callback){
@@ -24,17 +26,21 @@ StudentDao.prototype.findById = function(id, callback){
 };
 
 StudentDao.prototype.insert = function(student, callback){
-	var photoPath = "/photos/" + student.id;
-	this.photosBucket.put(photoPath, student.photo.content, function(err) {
+	var me = this;
+	var uuid = guid();
+	student.id = uuid;
+	var photoPath = "/photos/" + uuid + "." + mime.extension(student.photo.definition.type);
+	this.photosBucket.put(photoPath, new Buffer(student.photo.content.substring(student.photo.content.indexOf(',') + 1), "base64"), student.photo.definition.type, function(err) {
 		if (err) {
+			console.log(err);
 			callback(err);
 			return;
 		}
-		student.photo = student.photoPath;
-		this.connection.insert('students', student, function(result, err) {
+		student.photo = me.awsS3Url + photoPath;
+		me.connection.insert('students', student, function(result, err) {
 			callback(result, err);
 		});
-	}, student.photo.definition.type, undefined, false); // last argument indicates if it's private
+	}, undefined, false); // last argument indicates if it's public
 	
 };
 
@@ -51,3 +57,18 @@ StudentDao.prototype.delete = function(id, callback){
 };
 
 module.exports = StudentDao;
+
+
+// helper functions
+// from: http://stackoverflow.com/questions/105034/how-to-create-a-guid-uuid-in-javascript
+var guid = (function() {
+  function s4() {
+    return Math.floor((1 + Math.random()) * 0x10000)
+               .toString(16)
+               .substring(1);
+  }
+  return function() {
+    return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
+           s4() + '-' + s4() + s4() + s4();
+  };
+})();

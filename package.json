@@ -10,6 +10,7 @@
     "mysql": "*",
 	"mysql-wrap": "*",
 	"dynamodb": "*",
-	"ee-aws-s3-bucket": "*"
+	"ee-aws-s3-bucket": "*",
+	"mime": "*"
   }
 }

@@ -26,21 +26,26 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-var awsCredentials = {
-	key: "",
-	secret: ""
+var config = {
+	mysql: {
+		host     : 'localhost',
+		port	 : '3306',
+		user     : 'root',
+		password : 'pass',
+		database : 'cloud02'
+	},
+	awsCredentials: {
+		key: "AKIAIZ3QW352K3U2APHQ",
+		secret: "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"
+	},
+	awsS3Url: "https://s3.amazonaws.com/",
+	awsS3Bucket: "cloud-02-students"
 };
 
-var connection = mysql.createConnection({
-	host     : 'localhost',
-	port	 : '3306',
-	user     : 'root',
-	password : 'pass',
-	database : 'cloud02'
-});
+var connection = mysql.createConnection(config.mysql);
 
 var a = {};
-a.studentDao = new StudentDao(connection, awsCredentials);
+a.studentDao = new StudentDao(config, connection);
 a.studentService = new StudentService(a);
 a.studentController = new StudentController(a);
 
