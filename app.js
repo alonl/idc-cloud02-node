@@ -7,6 +7,7 @@ var express	= require('express')
   , http	= require('http')
   , path	= require('path');
 
+var CONFIG   = require('config');
 var mysql	 = require('mysql');
 
 var StudentController	= require('./application/StudentController');
@@ -30,30 +31,7 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-var config = {
-	mysql: {
-		all01: {
-			host     : 'cloud02.cmzgbq7rbnoh.us-east-1.rds.amazonaws.com',
-			port	 : '3306',
-			user     : 'root',
-			password : 'passpass',
-			database : 'cloud02'
-		},
-		read01: {
-			host     : 'cloud02-1.cmzgbq7rbnoh.us-east-1.rds.amazonaws.com',
-			port	 : '3306',
-			user     : 'root',
-			password : 'passpass',
-			database : 'cloud02'
-		}
-	},
-	awsCredentials: {
-		key: "AKIAIJTWKLTPJQGTBP6Q",
-		secret: "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"
-	},
-	awsS3Url: "https://s3.amazonaws.com/",
-	awsS3Bucket: "cloud-02-students"
-};
+var config = CONFIG.config;
 
 var poolCluster = mysql.createPoolCluster();
 poolCluster.add('MASTER', config.mysql.all01);

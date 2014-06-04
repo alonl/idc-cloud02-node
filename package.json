@@ -11,6 +11,7 @@
 	"mysql-wrap": "*",
 	"dynamodb": "*",
 	"ee-aws-s3-bucket": "*",
-	"mime": "*"
+	"mime": "*",
+	"config": "*"
   }
 }
