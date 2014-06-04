@@ -13,7 +13,7 @@ StudentDao = function(config, poolCluster) {
 	// helper methods
 	var me = this;
 	this.uploadStudentPhoto = function(student, callback) {
-		if (student.photo.content == undefined) {
+		if (student.photo == undefined || student.photo.content == undefined) {
 			callback(null);
 			return;
 		};
