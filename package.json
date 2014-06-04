@@ -9,7 +9,8 @@
     "express": "~3.3.4",
     "mysql": "*",
 	"mysql-wrap": "*",
-	"dynamodb": "*",
+	"aws-sdk": "*",
+	"dynamo-converters": "*",
 	"ee-aws-s3-bucket": "*",
 	"mime": "*",
 	"config": "*"

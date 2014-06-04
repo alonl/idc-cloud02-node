@@ -12,6 +12,18 @@ StudentController.prototype.findAll = function findAll(req, res){
 	});
 };
 
+StudentController.prototype.findByIndex = function(req, res){
+	var index = req.param("index");
+	var filter = req.param("filter");
+	this.studentService.findByIndex(index, filter, function(err, result) {
+		if (err) {
+			res.send(500, err);
+		} else {
+			res.send(result);
+		}
+	});
+};
+
 StudentController.prototype.insert = function(req, res){
 	var student = req.body;
 	if (!validStudent(student)) {
@@ -44,11 +56,12 @@ StudentController.prototype.update = function(req, res){
 
 StudentController.prototype.delete = function(req, res){
 	var id = req.param("id");
+	var creationDate = req.param("creationDate");
 	if (!validId(id)) {
 		res.send(400, "Invalid ID: " + id);
 		return;
 	}
-	this.studentService.delete(req.param("id"), function(err, result) {
+	this.studentService.delete(id, creationDate, function(err, result) {
 		if (err) {
 			res.send(500, err);
 		} else {

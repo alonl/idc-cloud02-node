@@ -6,9 +6,17 @@ var StudentsController = function ($scope, $http) {
     $scope.editMode = false;
 
     $scope.fetchList = function () {
-        $http.get('students').success(function (students) {
-            $scope.studentsList = students;
-        });
+        var index = $scope.filterBy;
+        var filter = $scope.filterText;
+        if (index == undefined || index == "") {
+            $http.get('students').success(function (students) {
+                $scope.studentsList = students;
+            });
+        } else {
+            $http.get('students/' + index + '/' + filter).success(function (students) {
+                $scope.studentsList = students;
+            });
+        }
     }
 
     $scope.addStudent = function (student) {
@@ -40,10 +48,10 @@ var StudentsController = function ($scope, $http) {
         $scope.editMode = true;
     }
 
-    $scope.remove = function (id) {
+    $scope.remove = function (item) {
         $scope.resetError();
 
-        $http.delete('students/' + id).success(function () {
+        $http.delete('students/' + item.id + "/" + item.creationDate).success(function () {
             $scope.fetchList();
         }).error(function () {
                 $scope.setError('Could not remove student');
@@ -67,16 +75,16 @@ $scope.resetForm = function () {
         $scope.errorMessage = message;
     }
 
-    $scope.showDeleteNotification = function (show, id) {
+    $scope.showDeleteNotification = function (show, item) {
         if (show === true) {
             $scope.deleteNotification = true;
         } else {
             $scope.deleteNotification = false;
         }
-        $scope.deleteId = id;
+        $scope.deleteItem = item;
     };
 
     $scope.fetchList();
 
-    $scope.predicate = 'studentPattern';
+    $scope.predicate = 'creationDate';
 }

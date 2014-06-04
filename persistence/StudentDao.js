@@ -1,8 +1,9 @@
-var createMySQLWrap = require('mysql-wrap');
-var S3Bucket        = require('ee-aws-s3-bucket');  
+var S3Bucket        = require('ee-aws-s3-bucket');
 var mime            = require('mime');
+var converter       = require('dynamo-converters');
 
-StudentDao = function(config, poolCluster) {
+StudentDao = function(config, connection) {
+	this.connection = connection;
 	this.photosBucket = new S3Bucket({
 		key: config.awsCredentials.key,
 		secret: config.awsCredentials.secret,
@@ -13,7 +14,7 @@ StudentDao = function(config, poolCluster) {
 	// helper methods
 	var me = this;
 	this.uploadStudentPhoto = function(student, callback) {
-		if (student.photo.content == undefined) {
+		if (student.photo == undefined || student.photo.content == undefined) {
 			callback(null);
 			return;
 		};
@@ -27,30 +28,36 @@ StudentDao = function(config, poolCluster) {
 			callback(err);
 		}, undefined, false); // last argument indicates if it's private
 	}
-	this.getConnection = function(type, callback) {
-		var cb = function(err, connection) {
-			if (err) {
-				console.log(err);
-				callback(err);
-			} else {
-				console.log("Got connection: " + connection.config.host);
-				callback(err, createMySQLWrap(connection));
-			}
-		};
-		if      (type == 'WRITE') poolCluster.getConnection('MASTER', cb);
-		else if (type == 'READ')  poolCluster.getConnection(cb);
-	}
 };
 
 StudentDao.prototype.findAll = function(callback){
-	this.getConnection('READ', function (err, connection) {
-		if (err){
-			callback(err)
-		} else {
-			connection.select('students', {}, function(err, result) {
-				callback(err, result);
-			});
-		}
+	this.connection.scan({'TableName': 'students', 'Limit': 10}, function (err, result) {
+	    if (err) {
+	        callback(err);
+	    } else {
+	        var students = result.Items.map(converter.itemToData);
+		    callback(err, students);
+	    }
+	});
+};
+
+StudentDao.prototype.findByIndex = function(index, filter, callback){
+    var params = {
+        KeyConditions: {},
+        IndexName: index + "-index",
+        Limit: 10,
+        TableName: 'students',
+    };
+    params.KeyConditions[index] = {};
+    params.KeyConditions[index].ComparisonOperator = 'EQ';
+    params.KeyConditions[index].AttributeValueList = [{'S': filter}];
+	this.connection.query(params, function (err, result) {
+	    if (err) {
+	        callback(err);
+	    } else {
+	        var students = result.Items.map(converter.itemToData);
+		    callback(err, students);
+	    }
 	});
 };
 
@@ -58,46 +65,27 @@ StudentDao.prototype.insert = function(student, callback){
 	var me = this;
 	var uuid = guid();
 	student.id = uuid;
-	student.creationDate = new Date();
+	student.creationDate = new Date().toISOString();
 	this.uploadStudentPhoto(student, function(err) {
-		me.getConnection('WRITE', function(err, connection) {
-			if (err) {
-				callback(err);
-			} else {
-				connection.insert('students', student, function(err, result) {
-					callback(err, result);
-				});
-			}
-		});
+        me.connection.putItem({'TableName': 'students', 'Item': converter.dataToItem(student)}, function(err, result) {
+            callback(err, result);
+        });
 	});
 };
 
 StudentDao.prototype.update = function(student, callback){
 	var me = this;
 	this.uploadStudentPhoto(student, function(err) {
-		me.getConnection('WRITE', function(err, connection) {
-			if (err) {
-				callback(err);
-			} else {
-			    delete student.creationDate;
-				connection.update('students', student, {'id': student.id}, function(err, result) {
-					callback(err, result);
-				});
-			}
-		});
+        me.connection.putItem({'TableName': 'students', 'Item': converter.dataToItem(student)}, function(err, result) {
+            callback(err, result);
+        });
 	});
 };
 
-StudentDao.prototype.delete = function(id, callback){
-	this.getConnection('WRITE', function(err, connection) {
-		if (err) {
-			callback(err);
-		} else {		
-			connection.delete('students', {'id': id}, function(err, result) {
-				callback(err, result);
-			});
-		}
-	});
+StudentDao.prototype.delete = function(id, creationDate, callback){
+    this.connection.deleteItem({'TableName': 'students', 'Key': {'id': {'S': id}, 'creationDate': {'S': creationDate}}}, function(err, result) {
+        callback(err, result);
+    });
 };
 
 module.exports = StudentDao;

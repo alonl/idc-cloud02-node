@@ -8,6 +8,12 @@ StudentService.prototype.findAll = function(callback) {
 	});
 };
 
+StudentService.prototype.findByIndex = function(index, filter, callback) {
+	this.studentDao.findByIndex(index, filter, function(err, result) {
+		callback(err, result);
+	});
+};
+
 StudentService.prototype.insert = function(student, callback) {
 	this.studentDao.insert(student, function(err, result) {
 		callback(err, result);
@@ -20,8 +26,8 @@ StudentService.prototype.update = function(student, callback) {
 	});
 };
 
-StudentService.prototype.delete = function(id, callback) {
-	this.studentDao.delete(id, function(err, result) {
+StudentService.prototype.delete = function(id, creationDate, callback) {
+	this.studentDao.delete(id, creationDate, function(err, result) {
 		callback(err, result);
 	});
 };

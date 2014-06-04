@@ -1,7 +1,32 @@
 <div class="alert alert-error" ng-show="error">{{errorMessage}}</div>
 
 <form class="form-horizontal">
+    <div class="control-group col-span4">
+        <div class="controls">
+            <input class="btn" type="button" ng-click="fetchList()" value="Refresh"/>
+        </div>
+    </div>
+    <div class="control-group col-span4">
+        <label class="control-label">Filter By:</label>
+        <div class="controls">
+            <select name="Filter By:" ng-model="filterBy" ng-change='fetchList'>
+                <option value="">None</option>
+                <option value='faculty'>Faculty</option>
+                <option value='city'>City</option>
+            </select>
+        </div>
+    </div>
+    <div class="control-group col-span4" ng-show="filterBy == 'faculty' || filterBy == 'city'">
+        <div class="controls">
+            <input type="text" ng-model="filterText" placeholder="filter text" />
+        </div>
+    </div>
+</form>
 
+<br /><br />
+<hr />
+
+<form class="form-horizontal">
     <div class="control-group">
         <label class="control-label" for="student_country">Country:</label>
         <div class="controls">
@@ -60,7 +85,7 @@
 
     <div class="form-controls-alert">
         <a href="" class="btn" data-ng-click="showDeleteNotification(false)">No</a>
-        <a href="" class="btn btn-danger" data-ng-click="remove(deleteId)">Yes</a>
+        <a href="" class="btn btn-danger" data-ng-click="remove(deleteItem)">Yes</a>
     </div>
 </div>
 
@@ -90,9 +115,9 @@
         <td>{{item.age}}</td>
         <td>{{item.faculty}}</td>
         <td>{{item.creationDate | date:'yyyy-MM-dd'}}</td>
-        <td><img width="300px" ng-src="{{item.photo}}"></img></td>
+        <td><img width="300px" ng-src="{{item.photo}}" /></td>
         <td style="width: 100px; text-align: center;">
-            <button class="btn btn-mini btn-danger" data-ng-click="showDeleteNotification(true, item.id)">Remove
+            <button class="btn btn-mini btn-danger" data-ng-click="showDeleteNotification(true, item)">Remove
             </button>
             <button class="btn btn-mini btn-success" ng-click="editStudent(item)">Edit</button>
         </td>
