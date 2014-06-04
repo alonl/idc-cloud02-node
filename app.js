@@ -1,16 +1,9 @@
-// TODO:
-// sources:
-// http://stackoverflow.com/questions/11835271/has-anyone-figured-out-how-to-scale-amazon-rds-read-replicas
-// USED 'production' env
-
 // dependencies
 var express	= require('express')
   , http	= require('http')
   , path	= require('path');
-
 var CONFIG   = require('config');
 var mysql	 = require('mysql');
-
 var StudentController	= require('./application/StudentController');
 var StudentService		= require('./business/StudentService');
 var StudentDao			= require('./persistence/StudentDao');
