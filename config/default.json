@@ -5,5 +5,9 @@
 	},
 	"awsS3Url": "http://dc7c65y91fwx6.cloudfront.net",
 	"awsS3Bucket": "cloud-02-students",
-	"awsRegion": "us-east-1"
+	"awsRegion": "us-east-1",
+	"redis": {
+	    "port": "6379",
+	    "host": "students.ny9daq.0001.use1.cache.amazonaws.com"
+	}
 }

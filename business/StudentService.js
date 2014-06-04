@@ -1,9 +1,10 @@
 StudentService = function(app) {
 	this.studentDao = app.studentDao;
+	this.studentCache = app.studentCache;
 };
  
 StudentService.prototype.findAll = function(callback) {
-	this.studentDao.findAll(function(err, result) {
+	this.studentCache.findAll(function(err, result) {
 		callback(err, result);
 	});
 };
@@ -15,8 +16,13 @@ StudentService.prototype.findByIndex = function(index, filter, callback) {
 };
 
 StudentService.prototype.insert = function(student, callback) {
+	var me = this;
 	this.studentDao.insert(student, function(err, result) {
-		callback(err, result);
+	    if (err) {
+	        callback(err);
+	    } else {
+	        me.studentCache.insert(student, callback);
+	    }
 	});
 };
 

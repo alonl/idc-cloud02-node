@@ -13,6 +13,7 @@
 	"dynamo-converters": "*",
 	"ee-aws-s3-bucket": "*",
 	"mime": "*",
-	"config": "*"
+	"config": "*",
+	"redis": "*"
   }
 }

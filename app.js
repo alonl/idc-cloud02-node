@@ -10,11 +10,13 @@ var express	= require('express')
   , http	= require('http')
   , path	= require('path');
 
-var CONFIG   = require('config');
-var AWS      = require('aws-sdk');
+var CONFIG = require('config');
+var AWS    = require('aws-sdk');
+var redis  = require('redis');
 
 var StudentController	= require('./application/StudentController');
 var StudentService		= require('./business/StudentService');
+var StudentCache		= require('./persistence/StudentCache');
 var StudentDao			= require('./persistence/StudentDao');
 
 var app = express();
@@ -37,10 +39,13 @@ app.configure('development', function(){
 var config = CONFIG;
 
 AWS.config.update({accessKeyId: config.awsCredentials.key, secretAccessKey: config.awsCredentials.secret, region: config.awsRegion});
+
 var connection = new AWS.DynamoDB();
+var cache = redis.createClient(config.redis.port, config.redis.host);
 
 var a = {};
 a.studentDao = new StudentDao(config, connection);
+a.studentCache = new StudentCache(cache);
 a.studentService = new StudentService(a);
 a.studentController = new StudentController(a);
 
