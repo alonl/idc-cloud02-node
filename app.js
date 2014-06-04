@@ -1,19 +1,10 @@
-// TODO:
-// sources:
-// http://stackoverflow.com/questions/11835271/has-anyone-figured-out-how-to-scale-amazon-rds-read-replicas
-// USED 'production' env
-
-// update in all commits: if (student.photo.content == undefined) {
-
 // dependencies
 var express	= require('express')
   , http	= require('http')
   , path	= require('path');
-
 var CONFIG = require('config');
 var AWS    = require('aws-sdk');
 var redis  = require('redis');
-
 var StudentController	= require('./application/StudentController');
 var StudentService		= require('./business/StudentService');
 var StudentCache		= require('./persistence/StudentCache');
@@ -49,6 +40,7 @@ a.studentCache = new StudentCache(cache);
 a.studentService = new StudentService(a);
 a.studentController = new StudentController(a);
 
+// API
 app.get('/students/:index/:filter', a.studentController.findByIndex.bind(a.studentController));
 app.get('/students', a.studentController.findAll.bind(a.studentController));
 app.post('/students', a.studentController.insert.bind(a.studentController));
