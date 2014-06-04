@@ -36,7 +36,7 @@ AngularJS implements the MVC model in the client side. A view is attached to its
                                             Contains the business logic behind the view, and AJAX calls functions to the server.
 
 
-Server-side (nodeJS)
+Server-side (NodeJS & Express)
 ----------------
 
 * app.js      -   The main file, entry point of the server. Contains the following:
