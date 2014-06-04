@@ -26,7 +26,7 @@ StudentDao = function(config, connection) {
 			}
 			student.photo = me.awsS3Url + photoPath;
 			callback(err);
-		}, undefined, false); // last argument indicates if it's private
+		}, {"CacheControl": "max-age=3600"}, false); // last argument indicates if it's private
 	}
 };
 
