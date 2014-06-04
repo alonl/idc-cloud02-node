@@ -39,18 +39,18 @@ resources/js/controllers/StudentCtrl.js -   The 'students' controller (client si
 Server-side (nodeJS)
 ----------------
 
-app.js      -   The main file, entry point of the server. Contains the following:
-                * Third-party libraries dependencies (the 'require' part)
-                * DB connections config
-                * The app objects and layers (controller, service, DAO)
-                * API (REST API) - routes each request to its controller's function
-application/StudentController.js    -   The presentation layer. Handles the user requests.
-business/StudentService.js          -   The business layer. Does the business logic.
-persistence/StudentDao.js           -   The repository layer. Access the DB.
-persistence/StudentCache.js         -   Repository later to access Redis.
-config/default.js                   -   Configuration file
-config/production.js                -   REMOVED FROM SOURCE CONTROL - same as default.js but with real values
-package.json                        -   Contains the app info and dependencies for the NPM (package manager)
+* app.js      -   The main file, entry point of the server. Contains the following:
+** Third-party libraries dependencies (the 'require' part)
+** DB connections config
+** The app objects and layers (controller, service, DAO)
+** API (REST API) - routes each request to its controller's function
+* application/StudentController.js    -   The presentation layer. Handles the user requests.
+* business/StudentService.js          -   The business layer. Does the business logic.
+* persistence/StudentDao.js           -   The repository layer. Access the DB.
+* persistence/StudentCache.js         -   Repository later to access Redis.
+* config/default.js                   -   Configuration file
+* config/production.js                -   REMOVED FROM SOURCE CONTROL - same as default.js but with real values
+* package.json                        -   Contains the app info and dependencies for the NPM (package manager)
 
 
 Notes
