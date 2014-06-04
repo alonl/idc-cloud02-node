@@ -19,6 +19,6 @@
 		"key": "XXX",
 		"secret": "XXX"
 	},
-	"awsS3Url": "http://s3.amazonaws.com/cloud-02-students",
+	"awsS3Url": "http://dc7c65y91fwx6.cloudfront.net",
 	"awsS3Bucket": "cloud-02-students"
 }
