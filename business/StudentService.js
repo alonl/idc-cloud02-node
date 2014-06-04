@@ -8,12 +8,6 @@ StudentService.prototype.findAll = function(callback) {
 	});
 };
 
-StudentService.prototype.findById = function(id, callback) {
-	this.studentDao.findById(id, function(err, result) {
-		callback(err, result);
-	});
-};
-
 StudentService.prototype.insert = function(student, callback) {
 	this.studentDao.insert(student, function(err, result) {
 		callback(err, result);

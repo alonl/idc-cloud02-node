@@ -2,7 +2,7 @@
 
 /* Directives */
 
-var AppDirectives = angular.module('AngularSpringApp.directives', []);
+var AppDirectives = angular.module('Cloud02App.directives', []);
 
 AppDirectives.directive('appVersion', ['version', function (version) {
     return function (scope, elm, attrs) {

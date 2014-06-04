@@ -12,21 +12,6 @@ StudentController.prototype.findAll = function findAll(req, res){
 	});
 };
 
-StudentController.prototype.findById = function(req, res){
-	var id = req.param("id");
-	if (!validId(id)) {
-		res.send(400, "Invalid ID: " + id);
-		return;
-	}
-	this.studentService.findById(req.param("id"), function(err, result) {
-		if (err) {
-			res.send(500, err);
-		} else {
-			res.send(result);
-		}
-	});		
-};
-
 StudentController.prototype.insert = function(req, res){
 	var student = req.body;
 	if (!validStudent(student)) {

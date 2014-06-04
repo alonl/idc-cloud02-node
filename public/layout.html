@@ -70,7 +70,7 @@
 <table class="table table-bordered table-striped" ng-show="studentsList.length > 0">
     <thead>
     <tr>
-        <th style="text-align: center; width: 25px;">Id</th>
+        <th style="text-align: center;">Id</th>
         <th style="text-align: center;">Country</th>
         <th style="text-align: center;">City</th>
         <th style="text-align: center;">Name</th>
@@ -78,6 +78,7 @@
         <th style="text-align: center;">Faculty</th>
         <th style="text-align: center;">Creation Date</th>
         <th style="text-align: center;">Photo</th>
+		<th style="text-align: center;">Actions</th>
     </tr>
     </thead>
     <tbody>
@@ -89,7 +90,7 @@
         <td>{{item.age}}</td>
         <td>{{item.faculty}}</td>
         <td>{{item.creationDate}}</td>
-        <td><img src="{{item.photo}}"></img></td>
+        <td><img width="300px" ng-src="{{item.photo}}"></img></td>
         <td style="width: 100px; text-align: center;">
             <button class="btn btn-mini btn-danger" data-ng-click="showDeleteNotification(true, item.id)">Remove
             </button>

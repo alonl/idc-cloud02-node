@@ -1,3 +1,7 @@
+// TODO:
+// sources:
+// http://stackoverflow.com/questions/11835271/has-anyone-figured-out-how-to-scale-amazon-rds-read-replicas
+
 // dependencies
 var express	= require('express')
   , http	= require('http')
@@ -28,29 +32,39 @@ app.configure('development', function(){
 
 var config = {
 	mysql: {
-		host     : 'localhost',
-		port	 : '3306',
-		user     : 'root',
-		password : 'pass',
-		database : 'cloud02'
+		all01: {
+			host     : 'cloud02.cmzgbq7rbnoh.us-east-1.rds.amazonaws.com',
+			port	 : '3306',
+			user     : 'root',
+			password : 'passpass',
+			database : 'cloud02'
+		},
+		read01: {
+			host     : 'cloud02-1.cmzgbq7rbnoh.us-east-1.rds.amazonaws.com',
+			port	 : '3306',
+			user     : 'root',
+			password : 'passpass',
+			database : 'cloud02'
+		}
 	},
 	awsCredentials: {
-		key: "AKIAIZ3QW352K3U2APHQ",
-		secret: "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"
+		key: "AKIAIJTWKLTPJQGTBP6Q",
+		secret: "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"
 	},
 	awsS3Url: "https://s3.amazonaws.com/",
 	awsS3Bucket: "cloud-02-students"
 };
 
-var connection = mysql.createConnection(config.mysql);
+var poolCluster = mysql.createPoolCluster();
+poolCluster.add('MASTER', config.mysql.all01);
+poolCluster.add('READ', config.mysql.read01);
 
 var a = {};
-a.studentDao = new StudentDao(config, connection);
+a.studentDao = new StudentDao(config, poolCluster);
 a.studentService = new StudentService(a);
 a.studentController = new StudentController(a);
 
 app.get('/students', a.studentController.findAll.bind(a.studentController));
-app.get('/students/:id', a.studentController.findById.bind(a.studentController));
 app.post('/students', a.studentController.insert.bind(a.studentController));
 app.put('/students', a.studentController.update.bind(a.studentController));
 app.delete('/students/:id', a.studentController.delete.bind(a.studentController));
