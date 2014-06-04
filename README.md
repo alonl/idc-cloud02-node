@@ -6,7 +6,7 @@ http://default-environment-j6kfddk2ip.elasticbeanstalk.com/
 
 Installation
 ----------------
-'npm install'
+run 'npm install'
 
 
 Usage
@@ -21,18 +21,18 @@ Client-side (AngularJS & Bootstrap)
 All client-side files reside in 'public' directory. It's a single page application.
 AngularJS implements the MVC model in the client side. A view is attached to its controller by the route.
 
-index.html                              -   The frame of the main page. Has a 'view' inside, that can be switched, but currently we have only one view.
+* index.html                              -   The frame of the main page. Has a 'view' inside, that can be switched, but currently we have only one view.
                                             Also contains the third-party 'dependencies' (scripts).
-layout.html                             -   The 'view' of the 'students'.
-resources/bootstrap                     -   Bootstrap library
-resources/js/lib/angular                -   AngularJS library
-resources/css                           -   CSS
-resources/images                        -   Images (favicon)
-resources/js/app.js                     -   The Angular app configurations. Also contains the router, which binds view & controller.
-resources/js/directives.js              -   AngularJS custom directives
-resources/js/filters.js                 -   AngularJS custom filters
-resources/js/services.js                -   AngularJS custom services
-resources/js/controllers/StudentCtrl.js -   The 'students' controller (client side).
+* layout.html                             -   The 'view' of the 'students'.
+* resources/bootstrap                     -   Bootstrap library
+* resources/js/lib/angular                -   AngularJS library
+* resources/css                           -   CSS
+* resources/images                        -   Images (favicon)
+* resources/js/app.js                     -   The Angular app configurations. Also contains the router, which binds view & controller.
+* resources/js/directives.js              -   AngularJS custom directives
+* resources/js/filters.js                 -   AngularJS custom filters
+* resources/js/services.js                -   AngularJS custom services
+* resources/js/controllers/StudentCtrl.js -   The 'students' controller (client side).
                                             Contains the business logic behind the view, and AJAX calls functions to the server.
 
 
