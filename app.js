@@ -19,7 +19,7 @@ var app = express();
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
-  app.use(express.favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')));
+  app.use(express.favicon(path.join(__dirname, 'public', 'resources', 'images', 'favicon.ico')));
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
@@ -31,11 +31,11 @@ app.configure('development', function(){
   app.use(express.errorHandler());
 });
 
-var config = CONFIG.config;
+var config = CONFIG;
 
 var poolCluster = mysql.createPoolCluster();
-poolCluster.add('MASTER', config.mysql.all01);
-poolCluster.add('READ', config.mysql.read01);
+poolCluster.add('MASTER', config.mysql.master);
+poolCluster.add('READ', config.mysql.read);
 
 var a = {};
 a.studentDao = new StudentDao(config, poolCluster);
