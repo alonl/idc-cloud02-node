@@ -1,6 +1,7 @@
 // TODO:
 // sources:
 // http://stackoverflow.com/questions/11835271/has-anyone-figured-out-how-to-scale-amazon-rds-read-replicas
+// USED 'production' env
 
 // dependencies
 var express	= require('express')

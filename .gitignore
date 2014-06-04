@@ -28,4 +28,5 @@ node_modules
 .idea
 
 # Config
-config/*.json
+config/production.json
+config/runtime.json

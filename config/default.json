@@ -1,0 +1,24 @@
+{
+	"mysql": {
+		"master": {
+			"host"     : "cloud02.XXX.us-east-1.rds.amazonaws.com",
+			"port"	 : "3306",
+			"user"     : "",
+			"password" : "",
+			"database" : ""
+		},
+		"read": {
+			"host"     : "cloud02-1.XXX.us-east-1.rds.amazonaws.com",
+			"port"	 : "3306",
+			"user"     : "",
+			"password" : "",
+			"database" : ""
+		}
+	},
+	"awsCredentials": {
+		"key": "XXX",
+		"secret": "XXX"
+	},
+	"awsS3Url": "http://s3.amazonaws.com/cloud-02-students",
+	"awsS3Bucket": "cloud-02-students"
+}

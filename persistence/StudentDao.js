@@ -8,7 +8,7 @@ StudentDao = function(config, poolCluster) {
 		secret: config.awsCredentials.secret,
 		bucket: config.awsS3Bucket
 	});
-	this.awsS3Url = config.awsS3Url + config.awsS3Bucket;
+	this.awsS3Url = config.awsS3Url;
 	
 	// helper methods
 	var me = this;
@@ -79,6 +79,7 @@ StudentDao.prototype.update = function(student, callback){
 			if (err) {
 				callback(err);
 			} else {
+			    delete student.creationDate;
 				connection.update('students', student, {'id': student.id}, function(err, result) {
 					callback(err, result);
 				});
