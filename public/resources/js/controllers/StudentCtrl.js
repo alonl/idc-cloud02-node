@@ -43,6 +43,7 @@ var StudentsController = function ($scope, $http) {
     }
 
     $scope.editStudent = function (student) {
+        $('#student_photo').val('');
         $scope.resetError();
         $scope.student = student;
         $scope.editMode = true;
@@ -60,6 +61,7 @@ var StudentsController = function ($scope, $http) {
     }
 
 $scope.resetForm = function () {
+        $('#student_photo').val('');
         $scope.resetError();
         $scope.student = {};
         $scope.editMode = false;
