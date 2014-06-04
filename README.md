@@ -59,3 +59,4 @@ Notes
 * Q1 - mysql replicas - I followed this stackoverflow answer: http://stackoverflow.com/questions/11835271/has-anyone-figured-out-how-to-scale-amazon-rds-read-replicas
   (Used the application-layer solution).
 * BONUS - I've added an option to Edit and Delete an entry (It is not deleted from the cache, though).
+* BONUS - Did Q1 bonus (cache header)
