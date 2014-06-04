@@ -25,7 +25,7 @@ StudentDao = function(config, poolCluster) {
 			}
 			student.photo = me.awsS3Url + photoPath;
 			callback(err);
-		}, undefined, false); // last argument indicates if it's private
+		}, {"CacheControl": "max-age=3600"}, false); // last argument indicates if it's private
 	}
 	this.getConnection = function(type, callback) {
 		var cb = function(err, connection) {
